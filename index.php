@@ -4,8 +4,8 @@
 	<title></title>
 </head>
 <body>
-	<b>Reserved Words</b>
-	<select id="reserved_words"></select>
+	<b>Reserved Keywords</b>
+	<select id="reserved_keywords"></select>
 	<input id="input_keyword" type="text" placeholder="Input keyword" />
 	<button id="btn_add_keyword">Add Keyword</button>
 	<button id="btn_remove_keyword">Remove Keyword</button>
@@ -22,7 +22,7 @@
 	<br />
 	<br />
 	<b>File Stats</b> <button id="btn_process_file_stats">Process File Stats</button>
-	<div id="file_stats"></div>
+	<div id="stats"></div>
 
 	<script type="text/javascript" src="js/plugins/jquery.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>

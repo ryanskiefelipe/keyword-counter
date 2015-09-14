@@ -1,9 +1,10 @@
 var app = (function () {
 	var fileConents,
 		reservedKeywords = [],
-		operators = ["+", "-", "*", "/", "="];
+		operators = ["+", "-", "*", "/", "="],
+		exclusions = ["/*", "*/", "//"];
 
-	var $reservedWords = $("#reserved_words"),
+	var $reservedKeywords = $("#reserved_keywords"),
 		$inputKeyword = $("#input_keyword"),
 		$btnAddKeyword = $("#btn_add_keyword"),
 		$btnRemoveKeyword = $("#btn_remove_keyword"),
@@ -18,8 +19,8 @@ var app = (function () {
 			operandsCount = {},
 			numOfLines = 0;
 
-		// fileContents = $fileContents.html();
-		fileContents = "asd+asd";
+		// var fileContents = $fileContents.html();
+		var fileContents = "ab+cd+ef";
 
 		// gets the stats of keywords
 		for(var i = 0; i < reservedKeywords.length; i++) {
@@ -32,7 +33,9 @@ var app = (function () {
 		}
 
 		// gets the number of operands
-		var tempOperands = (fileContents.match(/[0-9a-z] + |[()/*+-] + |[0-9a-z]*/g) || []),
+		// var tempOperands = (fileContents.match(/[0-9a-z] + |[()/*+-] + |[0-9a-z]*/g) || []),
+		// 	operands = [];
+		var tempOperands = (fileContents.match(/[0-9a-zA-Z]+|(\\+|-|\\*)/g) || []),
 			operands = [];
 
 		for(var i = 0; i < tempOperands.length; i++) {
@@ -53,6 +56,7 @@ var app = (function () {
 		// gets the number of lines
 		numOfLines = fileContents.split("\n").length;
 
+		console.log("Word: " + fileContents);
 		console.log("Keywords Count:");
 		console.log(keywordsCount);
 		console.log("Operators Count:");
@@ -63,28 +67,6 @@ var app = (function () {
 	};
 
 	var events = (function () {
-		// var sampleString = "aa211+14+13+12";
-		// var tempOperands = sampleString.match(/[0-9a-z] + [()/*+-] + |[0-9a-z]*/g),
-		// 	operands = [];
-
-		// for(var i = 0; i < tempOperands.length; i++) {
-		// 	if(tempOperands[i]) {
-		// 		operands.push(tempOperands[i]);
-		// 	}
-		// }
-
-		// var sampleString = "a+b+c+d";
-		// var tempOperators = (sampleString.match(/[0-9a-z] + |[()/*+-=] + [0-9a-z]/g) || []),
-		// 	operators = [];
-
-		// for(var i = 0; i < tempOperators.length; i++) {
-		// 	if(tempOperators[i]) {
-		// 		operators.push(tempOperators[i]);
-		// 	}
-		// }
-
-		// console.log(tempOperators);
-
 		$inputKeyword.keypress(function (event) {
 			if(event.keyCode == "13") {
 				$btnAddKeyword.click();
@@ -95,11 +77,11 @@ var app = (function () {
 			var keyword = $inputKeyword.val().trim();
 
 			if(keyword != "") {
-				$reservedWords.append("<option value='" + keyword + "'>" + keyword  + "</option>");
+				$reservedKeywords.append("<option value='" + keyword + "'>" + keyword  + "</option>");
 				$inputKeyword.val("");
 				$inputKeyword.focus();
 
-				reservedKeywords = $.map($("#reserved_words option"), function (option) {
+				reservedKeywords = $.map($("#reserved_keywords option"), function (option) {
 					return option.value;
 				});
 			}
@@ -108,7 +90,7 @@ var app = (function () {
 		$btnRemoveKeyword.click(function () {
 			$("#reserved_words option:selected").remove();
 
-			reservedKeywords = $.map($("#reserved_words option"), function (option) {
+			reservedKeywords = $.map($("#reserved_keywords option"), function (option) {
 				return option.value;
 			});
 		});
