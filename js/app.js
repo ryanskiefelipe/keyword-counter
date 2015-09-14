@@ -13,26 +13,26 @@ var app = (function () {
 		$btnProcessFileStats = $("#btn_process_file_stats");
 
 	var processFileStats = function () {
-		var keywordCounts = {},
-			operatorCounts = {},
+		var keywordsCount = {},
+			operatorsCount = {},
+			operandsCount = {},
 			numOfLines = 0;
 
-		fileContents = $fileContents.html();
-
+		// fileContents = $fileContents.html();
+		fileContents = "asd+asd";
 
 		// gets the stats of keywords
 		for(var i = 0; i < reservedKeywords.length; i++) {
-			keywordCounts[reservedKeywords[i]] = fileContents.split(" " + reservedKeywords[i] + " ").length - 1;
+			keywordsCount[reservedKeywords[i]] = fileContents.split(" " + reservedKeywords[i] + " ").length - 1;
 		}
 
 		// gets the stats of operators
 		for(var i = 0; i < operators.length; i++) {
-			operatorCounts[operators[i]] = fileContents.split(operators[i]).length - 1;
+			operatorsCount[operators[i]] = fileContents.split(operators[i]).length - 1;
 		}
 
 		// gets the number of operands
-		var sampleString = "1+1+1+1";
-		var tempOperands = (sampleString.match(/[0-9a-z] + [()/*+-] + |[0-9a-z]*/g) || []),
+		var tempOperands = (fileContents.match(/[0-9a-z] + |[()/*+-] + |[0-9a-z]*/g) || []),
 			operands = [];
 
 		for(var i = 0; i < tempOperands.length; i++) {
@@ -41,15 +41,25 @@ var app = (function () {
 			}
 		}
 
+		for(var i = 0; i < operands.length; i++) {
+			if(operandsCount[operands[i]] == undefined) {
+				operandsCount[operands[i]] = 1;
+			}
+			else {
+				operandsCount[operands[i]] += 1;
+			}
+		}
+
 		// gets the number of lines
 		numOfLines = fileContents.split("\n").length;
 
-		console.log("Keyword Counts");
-		console.log(keywordCounts);
-		console.log("Operator Counts");
-		console.log(operatorCounts);
-		console.log("Number of lines");
-		console.log(numOfLines);
+		console.log("Keywords Count:");
+		console.log(keywordsCount);
+		console.log("Operators Count:");
+		console.log(operatorsCount);
+		console.log("Operands Count:");
+		console.log(operandsCount);
+		console.log("Number of lines: " + numOfLines);
 	};
 
 	var events = (function () {
@@ -62,10 +72,10 @@ var app = (function () {
 		// 		operands.push(tempOperands[i]);
 		// 	}
 		// }
-		
-		var sampleString = "a+b+c+d";
-		var tempOperators = (sampleString.match(/[0-9a-z] + [()/*+-=] + [^0-9a-z]/g)),
-			operators = [];
+
+		// var sampleString = "a+b+c+d";
+		// var tempOperators = (sampleString.match(/[0-9a-z] + |[()/*+-=] + [0-9a-z]/g) || []),
+		// 	operators = [];
 
 		// for(var i = 0; i < tempOperators.length; i++) {
 		// 	if(tempOperators[i]) {
@@ -73,7 +83,7 @@ var app = (function () {
 		// 	}
 		// }
 
-		console.log(tempOperators);
+		// console.log(tempOperators);
 
 		$inputKeyword.keypress(function (event) {
 			if(event.keyCode == "13") {
