@@ -19,8 +19,8 @@ var app = (function () {
 			operandsCount = {},
 			numOfLines = 0;
 
-		// var fileContents = $fileContents.html();
-		var fileContents = "ab+cd+ef";
+		var fileContents = $fileContents.html();
+		// var fileContents = "+ + + ab+cd+ef";
 
 		// gets the stats of keywords
 		for(var i = 0; i < reservedKeywords.length; i++) {
